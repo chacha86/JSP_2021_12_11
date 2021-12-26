@@ -21,5 +21,7 @@
 	</div>
 	<hr>
 </c:forEach>
+<a href="http://localhost:9000/jsp-example2/article?action=add">글쓰기</a>
+
 </body>
 </html>

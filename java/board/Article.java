@@ -17,6 +17,13 @@ public class Article {
 		this.body = body;
 		this.regDate = regDate;
 	}
+	
+	public Article(String title, String body, int memberIdx, String regDate) {
+		this.title = title;
+		this.memberIdx = memberIdx;
+		this.body = body;
+		this.regDate = regDate;
+	}
 
 	public Article(int idx, String title, String body) {
 		this.idx = idx;

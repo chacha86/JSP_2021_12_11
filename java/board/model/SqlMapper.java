@@ -77,12 +77,12 @@ public class SqlMapper {
 				INSERT INTO article 
 				SET title = '%s', 
 				`body` = '%s', 
-				nickname = '%s',
+				memberIdx = '%d',
 				regDate = '%s'
 				
 				""";
 		
-		sql = String.format(sql, a.getTitle(), a.getBody(), a.getNickname(), a.getRegDate());
+		sql = String.format(sql, a.getTitle(), a.getBody(), a.getMemberIdx(), a.getRegDate());
 		articleDB.updateData(sql);
 	}
 	

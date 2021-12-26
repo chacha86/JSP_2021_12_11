@@ -22,16 +22,36 @@ public class ArticleServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8"); 
 		
-		SqlMapper mapper = new SqlMapper();
-		ArrayList<Article> articles = mapper.getArticleList();
-		request.setAttribute("articles", articles);
+		String action = request.getParameter("action");
 		
-		// JSP에 데이터 보내기
-		RequestDispatcher rd = request.getRequestDispatcher("board/list.jsp");
-		rd.forward(request, response);
-		
-		
-		
+		// 게시물 목록 기능
+		if(action.equals("list")) {
+			
+			SqlMapper mapper = new SqlMapper();
+			ArrayList<Article> articles = mapper.getArticleList();
+			request.setAttribute("articles", articles);
+			
+			// JSP에 데이터 보내기
+			RequestDispatcher rd = request.getRequestDispatcher("board/list.jsp");
+			rd.forward(request, response);		
+			
+		} else if(action.equals("add")) {
+			
+			// 게시물 등록 기능
+			RequestDispatcher rd = request.getRequestDispatcher("board/addForm.jsp");
+			rd.forward(request, response);
+			
+		} else if(action.equals("doAdd")) {
+			
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+			
+			SqlMapper mapper = new SqlMapper();
+			Article a = new Article(title, body, 1, "20211226100000");
+			
+			mapper.insertArticle(a);
+		}
+
 	}
 
 }
