@@ -28,6 +28,8 @@ public class ArticleServlet extends HttpServlet {
 		if(action.equals("list")) {
 			
 			SqlMapper mapper = new SqlMapper();
+			
+			
 			ArrayList<Article> articles = mapper.getArticleList();
 			request.setAttribute("articles", articles);
 			
@@ -50,6 +52,21 @@ public class ArticleServlet extends HttpServlet {
 			Article a = new Article(title, body, 1, "20211226100000");
 			
 			mapper.insertArticle(a);
+			
+			
+			
+//			ArrayList<Article> articles = mapper.getArticleList();
+//			request.setAttribute("articles", articles);
+//			
+//			
+//			// 포워딩 => 처리중인 요청을 다른 곳으로 위임 
+//			RequestDispatcher rd = request.getRequestDispatcher("board/list.jsp");
+//			rd.forward(request, response);
+			
+			// 재요청 -> 특정 url 작성시 해당 url 페이지로 재요청
+			// 리다이렉팅 => 데이터 못보냄.
+			response.sendRedirect("http://localhost:9000/jsp-example2/article?action=list");
+			
 		}
 
 	}

@@ -12,6 +12,7 @@
 </head>
 <body>
 <h1>게시물 목록</h1>
+
 <c:forEach items="${ articles }" var="a">
 	<div>
 		번호 : ${ a.idx }

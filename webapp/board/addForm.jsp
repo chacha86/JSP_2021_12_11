@@ -9,7 +9,7 @@
 <body>
 <h1> 게시물 등록 </h1>
 
-<form>
+<form action="http://localhost:9000/jsp-example2/article">
 	<div>
 		<input type="text" name="title" placeholder="제목을 입력해주세요" />
 	</div>
