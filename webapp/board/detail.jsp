@@ -23,5 +23,6 @@
 	</div>
 </div>
 <hr>
+수정 <a href="/article?action=doDelete&idx=${ article.idx }">삭제</a>
 </body>
 </html>

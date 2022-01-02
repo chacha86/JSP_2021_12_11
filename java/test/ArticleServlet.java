@@ -16,6 +16,8 @@ import board.model.SqlMapper;
 @WebServlet("/article")
 public class ArticleServlet extends HttpServlet {
 	
+	SqlMapper mapper = new SqlMapper();
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// 공통 코드 처리
@@ -26,10 +28,7 @@ public class ArticleServlet extends HttpServlet {
 		
 		// 게시물 목록 기능
 		if(action.equals("list")) {
-			
-			SqlMapper mapper = new SqlMapper();
-			
-			
+					
 			ArrayList<Article> articles = mapper.getArticleList();
 			request.setAttribute("articles", articles);
 			
@@ -48,7 +47,6 @@ public class ArticleServlet extends HttpServlet {
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			
-			SqlMapper mapper = new SqlMapper();
 			Article a = new Article(title, body, 1, "20211226100000");
 			
 			mapper.insertArticle(a);
@@ -64,13 +62,19 @@ public class ArticleServlet extends HttpServlet {
 			
 			int idx = Integer.parseInt(request.getParameter("idx"));
 			
-			SqlMapper mapper = new SqlMapper();
+			
 			Article article = mapper.getArticleById(idx);
 
 			request.setAttribute("article", article);
 			
 			RequestDispatcher rd = request.getRequestDispatcher("board/detail.jsp");
 			rd.forward(request, response);		
+		} else if(action.equals("doDelete")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			mapper.deleteArticle(idx);
+			
+			response.sendRedirect("/article?action=list");
 		}
 
 	}
