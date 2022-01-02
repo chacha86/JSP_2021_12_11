@@ -75,6 +75,27 @@ public class ArticleServlet extends HttpServlet {
 			mapper.deleteArticle(idx);
 			
 			response.sendRedirect("/article?action=list");
+		} else if(action.equals("update")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));	
+			
+			Article article = mapper.getArticleById(idx);
+			request.setAttribute("article", article);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("board/updateForm.jsp");
+			rd.forward(request, response);
+			
+		} else if(action.equals("doUpdate")) {
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));	
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
+			
+			Article a = new Article(idx, title, body, 1, "20211226100000");
+			mapper.updateArticle(a);
+			
+			response.sendRedirect("article?action=detail&idx=" + idx);
+			
 		}
 
 	}
