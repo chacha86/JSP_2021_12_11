@@ -53,20 +53,24 @@ public class ArticleServlet extends HttpServlet {
 			
 			mapper.insertArticle(a);
 			
-			
-			
-//			ArrayList<Article> articles = mapper.getArticleList();
-//			request.setAttribute("articles", articles);
-//			
-//			
-//			// 포워딩 => 처리중인 요청을 다른 곳으로 위임 
-//			RequestDispatcher rd = request.getRequestDispatcher("board/list.jsp");
-//			rd.forward(request, response);
-			
 			// 재요청 -> 특정 url 작성시 해당 url 페이지로 재요청
 			// 리다이렉팅 => 데이터 못보냄.
-			response.sendRedirect("http://localhost:9000/jsp-example2/article?action=list");
+			response.sendRedirect("/article?action=list");
 			
+		} else if(action.equals("detail")) {
+			
+			// 상세보기 페이지 보여준다.
+			// 포워딩 => 상세보기 페이지로..
+			
+			int idx = Integer.parseInt(request.getParameter("idx"));
+			
+			SqlMapper mapper = new SqlMapper();
+			Article article = mapper.getArticleById(idx);
+
+			request.setAttribute("article", article);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("board/detail.jsp");
+			rd.forward(request, response);		
 		}
 
 	}

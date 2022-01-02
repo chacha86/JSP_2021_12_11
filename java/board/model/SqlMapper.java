@@ -46,7 +46,7 @@ public class SqlMapper {
 				
 				SELECT a.*, m.nickname
 				FROM article a
-				INNER JOIN `member`df m
+				INNER JOIN `member` m
 				ON a.memberIdx = m.idx
 				WHERE a.idx = %d
 				

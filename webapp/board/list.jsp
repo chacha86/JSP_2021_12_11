@@ -16,13 +16,13 @@
 <c:forEach items="${ articles }" var="a">
 	<div>
 		번호 : ${ a.idx }
-		제목 : ${ a.title }
+		<a href="/article?action=detail&idx=${ a.idx }">제목 : ${ a.title }</a>
 		작성자 : ${ a.nickname }
 		작성일 : ${ a.regDate }
 	</div>
 	<hr>
 </c:forEach>
-<a href="http://localhost:9000/jsp-example2/article?action=add">글쓰기</a>
+<a href="/article?action=add">글쓰기</a>
 
 </body>
 </html>
