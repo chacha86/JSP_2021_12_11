@@ -11,6 +11,14 @@
 <title>Insert title here</title>
 </head>
 <body>
+<hr>
+<div>
+	<a href="#">로그인 </a>
+	<a href="/member?action=addForm">회원가입</a> 
+	<a href="#">아이디 </a>
+	<a href="#">비밀번호 찾기</a>
+</div>
+<hr>
 <h1>게시물 목록</h1>
 
 <c:forEach items="${ articles }" var="a">

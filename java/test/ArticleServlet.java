@@ -51,7 +51,7 @@ public class ArticleServlet extends HttpServlet {
 
 		} else if (action.equals("doUpdate")) {
 			doUpdate(request, response);
-
+			
 		}
 	}
 
@@ -72,7 +72,7 @@ public class ArticleServlet extends HttpServlet {
 
 		Article article = mapper.getArticleById(idx);
 		request.setAttribute("article", article);
-		sendView(request, response, "board/updateForm.jsp", FORWARD);
+		sendView(request, response, "board/article/updateForm.jsp", FORWARD);
 	}
 
 	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -91,7 +91,7 @@ public class ArticleServlet extends HttpServlet {
 		Article article = mapper.getArticleById(idx);
 
 		request.setAttribute("article", article);		
-		sendView(request, response, "board/detail.jsp", FORWARD);
+		sendView(request, response, "board/article/detail.jsp", FORWARD);
 	}
 
 	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -105,14 +105,14 @@ public class ArticleServlet extends HttpServlet {
 	}
 
 	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		sendView(request, response, "board/addForm.jsp", FORWARD);
+		sendView(request, response, "board/article/addForm.jsp", FORWARD);
 	}
 
 	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ArrayList<Article> articles = mapper.getArticleList();
 		request.setAttribute("articles", articles);
 
-		sendView(request, response, "board/list.jsp", FORWARD);
+		sendView(request, response, "board/article/list.jsp", FORWARD);
 	}
 	
 	private void sendView(HttpServletRequest request, HttpServletResponse response, String path, int sendFlag) throws ServletException, IOException {
