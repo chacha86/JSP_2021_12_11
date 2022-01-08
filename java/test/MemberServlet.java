@@ -1,6 +1,7 @@
 package test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.Article;
 import board.member.Member;
 import board.model.SqlMapper;
 
@@ -33,7 +35,34 @@ public class MemberServlet extends HttpServlet {
 
 		} else if(action.equals("doAdd")) {
 			doAdd(request, response);
+		} else if(action.equals("loginForm")) {
+			loginForm(request, response);
+		} else if(action.equals("doLogin")) {
+			doLogin(request, response);
 		}
+	}
+
+	private void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String loginId = request.getParameter("loginId");
+		String loginPw = request.getParameter("loginPw");
+		
+		Member loginedMember = sqlMapper.getMemberLoginIdAndLoginPw(loginId, loginPw);
+		
+		if(loginedMember == null) {
+			sendView(request, response, "board/error/failedLogin.jsp", FORWARD);
+		} else {
+			// 로그인 성공 처리
+			
+			ArrayList<Article> articles = sqlMapper.getArticleList();
+			
+			request.setAttribute("loginedMemberName", loginedMember.getNickname());
+			request.setAttribute("articles", articles);
+			sendView(request, response, "board/article/list.jsp", FORWARD);
+		}		
+	}
+
+	private void loginForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		sendView(request, response, "board/member/loginForm.jsp", FORWARD);
 	}
 
 	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

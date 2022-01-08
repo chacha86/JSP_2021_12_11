@@ -12,12 +12,22 @@
 </head>
 <body>
 <hr>
-<div>
-	<a href="#">로그인 </a>
-	<a href="/member?action=addForm">회원가입</a> 
-	<a href="#">아이디 </a>
-	<a href="#">비밀번호 찾기</a>
-</div>
+<c:choose>
+	<c:when test="${ loginedMemberName == null }">
+		<div>
+			<a href="/member?action=loginForm">로그인 </a>
+			<a href="/member?action=addForm">회원가입</a> 
+			<a href="#">아이디 </a>
+			<a href="#">비밀번호 찾기</a>
+		</div>
+	</c:when>
+	<c:otherwise>
+		<div>
+			${ loginedMemberName }님 안녕하세요!! 
+			<a href="#">로그아웃</a>
+		</div>
+	</c:otherwise>
+</c:choose>
 <hr>
 <h1>게시물 목록</h1>
 
