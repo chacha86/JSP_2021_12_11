@@ -15,89 +15,115 @@ import board.model.SqlMapper;
 
 @WebServlet("/article")
 public class ArticleServlet extends HttpServlet {
+
+	final int FORWARD = 1;
+	final int REDIRECT = 2;
 	
 	SqlMapper mapper = new SqlMapper();
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		// 공통 코드 처리
 		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8"); 
-		
+		response.setContentType("text/html;charset=utf-8");
+
 		String action = request.getParameter("action");
-		
+
 		// 게시물 목록 기능
-		if(action.equals("list")) {
-					
-			ArrayList<Article> articles = mapper.getArticleList();
-			request.setAttribute("articles", articles);
+		if (action.equals("list")) {
+			list(request, response);
 			
-			// JSP에 데이터 보내기
-			RequestDispatcher rd = request.getRequestDispatcher("board/list.jsp");
-			rd.forward(request, response);		
-			
-		} else if(action.equals("add")) {
-			
-			// 게시물 등록 기능
-			RequestDispatcher rd = request.getRequestDispatcher("board/addForm.jsp");
-			rd.forward(request, response);
-			
-		} else if(action.equals("doAdd")) {
-			
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			
-			Article a = new Article(title, body, 1, "20211226100000");
-			
-			mapper.insertArticle(a);
-			
-			// 재요청 -> 특정 url 작성시 해당 url 페이지로 재요청
-			// 리다이렉팅 => 데이터 못보냄.
-			response.sendRedirect("/article?action=list");
-			
-		} else if(action.equals("detail")) {
-			
-			// 상세보기 페이지 보여준다.
-			// 포워딩 => 상세보기 페이지로..
-			
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			
-			
-			Article article = mapper.getArticleById(idx);
+		} else if (action.equals("add")) {
+			add(request, response);
 
-			request.setAttribute("article", article);
+		} else if (action.equals("doAdd")) {
+			doAdd(request, response);
+
+		} else if (action.equals("detail")) {
+			detail(request, response);
 			
-			RequestDispatcher rd = request.getRequestDispatcher("board/detail.jsp");
-			rd.forward(request, response);		
-		} else if(action.equals("doDelete")) {
-			
-			int idx = Integer.parseInt(request.getParameter("idx"));
-			mapper.deleteArticle(idx);
-			
-			response.sendRedirect("/article?action=list");
-		} else if(action.equals("update")) {
-			
-			int idx = Integer.parseInt(request.getParameter("idx"));	
-			
-			Article article = mapper.getArticleById(idx);
-			request.setAttribute("article", article);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("board/updateForm.jsp");
-			rd.forward(request, response);
-			
-		} else if(action.equals("doUpdate")) {
-			
-			int idx = Integer.parseInt(request.getParameter("idx"));	
-			String title = request.getParameter("title");
-			String body = request.getParameter("body");
-			
-			Article a = new Article(idx, title, body, 1, "20211226100000");
-			mapper.updateArticle(a);
-			
-			response.sendRedirect("article?action=detail&idx=" + idx);
-			
+		} else if (action.equals("doDelete")) {
+			delete(request, response);
+
+		} else if (action.equals("update")) {
+			update(request, response);
+
+		} else if (action.equals("doUpdate")) {
+			doUpdate(request, response);
+
 		}
+	}
 
+	private void doUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+
+		Article a = new Article(idx, title, body, 1, "20211226100000");
+		mapper.updateArticle(a);
+
+		String path = "article?action=detail&idx=" + idx;
+		sendView(request, response, path, REDIRECT);
+	}
+
+	private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int idx = Integer.parseInt(request.getParameter("idx"));
+
+		Article article = mapper.getArticleById(idx);
+		request.setAttribute("article", article);
+		sendView(request, response, "board/updateForm.jsp", FORWARD);
+	}
+
+	private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		int idx = Integer.parseInt(request.getParameter("idx"));
+		mapper.deleteArticle(idx);
+
+		sendView(request, response, "/article?action=list", REDIRECT);
+	}
+
+	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 상세보기 페이지 보여준다.
+		// 포워딩 => 상세보기 페이지로..
+
+		int idx = Integer.parseInt(request.getParameter("idx"));
+
+		Article article = mapper.getArticleById(idx);
+
+		request.setAttribute("article", article);		
+		sendView(request, response, "board/detail.jsp", FORWARD);
+	}
+
+	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+
+		Article a = new Article(title, body, 1, "20211226100000");
+
+		mapper.insertArticle(a);
+		sendView(request, response, "/article?action=list", REDIRECT);
+	}
+
+	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		sendView(request, response, "board/addForm.jsp", FORWARD);
+	}
+
+	private void list(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Article> articles = mapper.getArticleList();
+		request.setAttribute("articles", articles);
+
+		sendView(request, response, "board/list.jsp", FORWARD);
+	}
+	
+	private void sendView(HttpServletRequest request, HttpServletResponse response, String path, int sendFlag) throws ServletException, IOException {
+		
+		if(sendFlag == 1) { // forwarding
+			RequestDispatcher rd = request.getRequestDispatcher(path);
+			rd.forward(request, response);
+		} else { // redirecting
+			response.sendRedirect(path);
+		}
+		
 	}
 
 }
