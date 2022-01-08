@@ -9,11 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import board.member.Member;
+import board.model.SqlMapper;
+
 @WebServlet("/member")
 public class MemberServlet extends HttpServlet {
 
 	final int FORWARD = 1;
 	final int REDIRECT = 2;
+	
+	SqlMapper sqlMapper = new SqlMapper();
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -26,7 +31,22 @@ public class MemberServlet extends HttpServlet {
 		if (action.equals("addForm")) {
 			addForm(request, response);
 
+		} else if(action.equals("doAdd")) {
+			doAdd(request, response);
 		}
+	}
+
+	private void doAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String loginId = request.getParameter("loginId");
+		String loginPw = request.getParameter("loginPw");
+		String nickname = request.getParameter("nickname");
+		
+		Member member = new Member(loginId, loginPw, nickname);
+		sqlMapper.insertMember(member);
+		
+		sendView(request, response, "article?action=list", REDIRECT);
+		
 	}
 
 	private void addForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
