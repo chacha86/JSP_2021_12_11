@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import board.Article;
 import board.model.SqlMapper;
@@ -35,6 +36,7 @@ public class ArticleServlet extends HttpServlet {
 			list(request, response);
 			
 		} else if (action.equals("add")) {
+			// 로그인 했을 때만 사용 가능하도록
 			add(request, response);
 
 		} else if (action.equals("doAdd")) {
@@ -105,6 +107,17 @@ public class ArticleServlet extends HttpServlet {
 	}
 
 	private void add(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// 로그인 검증
+		HttpSession session = request.getSession();
+		
+		String loginedMemberName = (String)session.getAttribute("loginedMemberName");
+		
+		if (loginedMemberName == null) {
+			sendView(request, response, "board/error/doNeedLogin.jsp", FORWARD);
+			return ;
+		}
+		
 		sendView(request, response, "board/article/addForm.jsp", FORWARD);
 	}
 

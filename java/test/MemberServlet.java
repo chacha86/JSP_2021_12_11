@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import board.Article;
 import board.member.Member;
@@ -55,7 +56,13 @@ public class MemberServlet extends HttpServlet {
 			
 			ArrayList<Article> articles = sqlMapper.getArticleList();
 			
-			request.setAttribute("loginedMemberName", loginedMember.getNickname());
+			// request에 저장
+			//request.setAttribute("loginedMemberName", loginedMember.getNickname());
+			
+			// session에 저장
+			HttpSession session = request.getSession();
+			session.setAttribute("loginedMemberName", loginedMember.getNickname());
+			
 			request.setAttribute("articles", articles);
 			sendView(request, response, "board/article/list.jsp", FORWARD);
 		}		

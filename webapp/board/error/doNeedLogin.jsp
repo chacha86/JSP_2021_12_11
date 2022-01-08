@@ -7,8 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>로그인 실패!!</h1>
-<h3>비밀번호를 틀렸거나 잘못된 회원정보입니다.</h3>
+<h1>로그인이 필요한 기능!!</h1>
+<h3>로그인이 필요한 기능입니다.</h3>
 <a href="article?action=list">목록으로 돌아가기</a>
 <a href="member?action=loginForm">로그인 페이지로 가기</a>
 </body>
