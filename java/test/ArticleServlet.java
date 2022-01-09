@@ -54,7 +54,19 @@ public class ArticleServlet extends HttpServlet {
 		} else if (action.equals("doUpdate")) {
 			doUpdate(request, response);
 			
+		} else if (action.equals("search")) {
+			search(request, response);
 		}
+	}
+
+	private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String keyword = request.getParameter("keyword");		
+		ArrayList<Article> articles =  mapper.getSearchedList(keyword);
+		
+		request.setAttribute("articles", articles);
+		sendView(request, response, "board/article/list.jsp", FORWARD);
+		
 	}
 
 	private void doUpdate(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

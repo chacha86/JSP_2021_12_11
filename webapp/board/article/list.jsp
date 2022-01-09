@@ -40,7 +40,22 @@
 	</div>
 	<hr>
 </c:forEach>
-<a href="/article?action=add">글쓰기</a>
+<div>
+	<a href="/article?action=add">글쓰기</a>
+</div>
+<hr>
+<div>
+	<form action="article">
+		<select name="target">
+			<option value="title">제목</option>
+			<option value="nickname">작성자</option>
+		</select>
+		<input type="text" name="keyword" placeholder="검색어를 입력해주세요" />
+		<input type="hidden" name="action" value="search" />
+		<input type="submit" value="검색" />
+	</form>	
+</div>
+
 
 </body>
 </html>
