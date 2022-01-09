@@ -147,11 +147,10 @@ public class SqlMapper {
 			    SET articleIdx = %d,
 			    body = '%s',
 			    memberIdx = %d,
-			    regDate = NOW(),
-			    updateDate = NOW()
+			    regDate = NOW()
 						
 				""";
-		sql = String.format(sql, reply.getIdx(), reply.getBody(), reply.getMemberIdx());
+		sql = String.format(sql, reply.getParentNo(), reply.getBody(), reply.getMemberIdx());
 		replyDB.updateData(sql);
 	}
 }

@@ -40,7 +40,18 @@ public class MemberServlet extends HttpServlet {
 			loginForm(request, response);
 		} else if(action.equals("doLogin")) {
 			doLogin(request, response);
+		} else if(action.equals("logout")) {
+			logout(request, response);
 		}
+	}
+
+	private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		HttpSession session = request.getSession();
+		session.invalidate(); // 세션 파괴
+		
+		sendView(request, response, "article?action=list", REDIRECT);
+		
 	}
 
 	private void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -62,6 +73,7 @@ public class MemberServlet extends HttpServlet {
 			// session에 저장
 			HttpSession session = request.getSession();
 			session.setAttribute("loginedMemberName", loginedMember.getNickname());
+			session.setAttribute("loginedMemberIdx", loginedMember.getIdx());
 			
 			request.setAttribute("articles", articles);
 			sendView(request, response, "board/article/list.jsp", FORWARD);

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import board.Article;
+import board.Reply;
 import board.model.SqlMapper;
 
 @WebServlet("/article")
@@ -56,7 +57,25 @@ public class ArticleServlet extends HttpServlet {
 			
 		} else if (action.equals("search")) {
 			search(request, response);
+		} else if(action.equals("addReply")) {
+			addReply(request, response);
 		}
+	}
+
+	private void addReply(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String rbody = request.getParameter("rbody");
+		int parentNo = Integer.parseInt(request.getParameter("parentNo"));
+		
+		HttpSession session = request.getSession();
+		
+		int memberIdx = (int)session.getAttribute("loginedMemberIdx");		
+		Reply reply = new Reply(parentNo, rbody, memberIdx);		
+		mapper.insertReply(reply);
+		
+		String path = "article?action=detail&idx=" + parentNo;
+		sendView(request, response, path, REDIRECT);
+		
 	}
 
 	private void search(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,14 +116,12 @@ public class ArticleServlet extends HttpServlet {
 	}
 
 	private void detail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 상세보기 페이지 보여준다.
-		// 포워딩 => 상세보기 페이지로..
-
 		int idx = Integer.parseInt(request.getParameter("idx"));
 
 		Article article = mapper.getArticleById(idx);
 
 		request.setAttribute("article", article);		
+		
 		sendView(request, response, "board/article/detail.jsp", FORWARD);
 	}
 

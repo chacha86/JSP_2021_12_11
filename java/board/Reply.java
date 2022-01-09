@@ -16,6 +16,12 @@ public class Reply {
 		this.regDate = regDate;
 	}
 	
+	public Reply(int parentNo, String body, int memberIdx) {
+		this.parentNo = parentNo;
+		this.body = body;
+		this.memberIdx = memberIdx;
+	}
+	
 	public int getParentNo() {
 		return parentNo;
 	}

@@ -24,5 +24,19 @@
 </div>
 <hr>
 <a href="/article?action=update&idx=${ article.idx }">수정</a> <a href="/article?action=doDelete&idx=${ article.idx }">삭제</a>
+<hr>
+<h3>댓글</h3>
+<hr>
+<form action="article">
+	<div>
+		${ loginedMemberName }
+	</div>
+	<div>
+		<input type="text" name="rbody" placeholder="댓글을 남겨보세요" />
+		<input type="hidden" name="action" value="addReply" />
+		<input type="hidden" name="parentNo" value="${ article.idx }" />
+		<input type="submit" value="등록" />
+	</div>
+</form>
 </body>
 </html>

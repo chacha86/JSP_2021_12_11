@@ -24,7 +24,7 @@
 	<c:otherwise>
 		<div>
 			${ loginedMemberName }님 안녕하세요!! 
-			<a href="#">로그아웃</a>
+			<a href="/member?action=logout">로그아웃</a>
 		</div>
 	</c:otherwise>
 </c:choose>
