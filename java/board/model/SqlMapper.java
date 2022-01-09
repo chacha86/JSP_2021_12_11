@@ -132,7 +132,7 @@ public class SqlMapper {
     			SELECT ar.*, m.nickname
     			FROM articleReply ar
     			INNER JOIN `member` m
-    			ON ar.articleIdx = m.idx
+    			ON ar.memberIdx = m.idx
     			WHERE ar.articleIdx = %d
     			
 				""";

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +27,17 @@
 <a href="/article?action=update&idx=${ article.idx }">수정</a> <a href="/article?action=doDelete&idx=${ article.idx }">삭제</a>
 <hr>
 <h3>댓글</h3>
+<hr>
+<div>
+	<c:forEach items="${replies}" var="r">
+		<div>
+			${ r.nickname }<br>
+			${ r.body }<br>
+			${ r.regDate }<br>
+		</div>
+		<hr>		
+	</c:forEach>
+</div>
 <hr>
 <form action="article">
 	<div>

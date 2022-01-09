@@ -119,8 +119,10 @@ public class ArticleServlet extends HttpServlet {
 		int idx = Integer.parseInt(request.getParameter("idx"));
 
 		Article article = mapper.getArticleById(idx);
+		ArrayList<Reply> replies = mapper.getRepliesByArticleIdx(idx);
 
-		request.setAttribute("article", article);		
+		request.setAttribute("article", article);
+		request.setAttribute("replies", replies);
 		
 		sendView(request, response, "board/article/detail.jsp", FORWARD);
 	}
